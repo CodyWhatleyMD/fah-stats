@@ -5,17 +5,18 @@
   <title>Folding@home Stats – CodyWhatleyMD</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-
   <meta property="og:title" content="Folding@home Stats – Donor 757631240" />
   <meta property="og:description"
         content="Live Folding@home donor statistics for ID 757631240." />
   <meta property="og:type" content="website" />
   <meta property="og:url"
-        content="https://CodyWhatleyMD/.github.io/fah-stats/" />
+        content="https://CodyWhatleyMD.github.io/fah-stats/" />
   <meta property="og:image"
-        content="https://CodyWhatleyMD/.github.io/fah-stats/preview.png" />
+        content="https://CodyWhatleyMD.github.io/fah-stats/card.svg" />
 
   <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
     :root {
       font-family: system-ui, -apple-system, BlinkMacSystemFont,
         "SF Pro Text", sans-serif;
@@ -26,9 +27,12 @@
       margin: 0;
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       background: radial-gradient(circle at top, #1d4ed8 0, #020617 55%, #000 100%);
+      padding: 20px;
+      gap: 20px;
     }
 
     .card {
@@ -37,9 +41,8 @@
       padding: 20px 18px 18px;
       box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8);
       color: #e5e7eb;
-      max-width: 360px;
+      max-width: 380px;
       width: 100%;
-      box-sizing: border-box;
     }
 
     .card-title {
@@ -55,7 +58,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 10px;
+      margin-bottom: 14px;
     }
 
     .card-heading {
@@ -80,6 +83,34 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       white-space: nowrap;
+    }
+
+    /* Stats grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 16px;
+      margin-bottom: 14px;
+    }
+
+    .stat-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 2px;
+    }
+
+    .stat-value {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .stat-sub {
+      font-size: 0.6rem;
+      color: #94a3b8;
+      margin-left: 4px;
+      font-weight: 400;
     }
 
     .card-body {
@@ -123,6 +154,71 @@
       gap: 6px;
       flex-wrap: wrap;
     }
+
+    /* Embed section */
+    .embed-section {
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: 24px;
+      padding: 20px 18px 18px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8);
+      color: #e5e7eb;
+      max-width: 380px;
+      width: 100%;
+    }
+
+    .embed-section h2 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .embed-option {
+      margin-bottom: 14px;
+    }
+
+    .embed-option label {
+      display: block;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
+
+    .embed-option pre {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+      border-radius: 8px;
+      padding: 10px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.6rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      color: #94a3b8;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .embed-option pre:hover {
+      border-color: rgba(96, 165, 250, 0.5);
+    }
+
+    .embed-option pre::after {
+      content: 'click to copy';
+      position: absolute;
+      top: 4px;
+      right: 6px;
+      font-size: 0.55rem;
+      color: #64748b;
+      pointer-events: none;
+    }
+
+    .embed-option pre.copied::after {
+      content: 'copied!';
+      color: #60a5fa;
+    }
   </style>
 </head>
 <body>
@@ -131,16 +227,14 @@
 
     <div class="card-main">
       <div>
-        <div class="card-heading">Donor stats</div>
+        <div class="card-heading" id="donor-name">Donor stats</div>
         <div class="id-line">Donor ID: 757631240</div>
       </div>
       <div class="tag">Live stats</div>
     </div>
 
-    <div class="card-body">
-      This card opens your official Folding@home donor statistics page
-      in a new tab. Share this link anywhere you want to show your
-      distributed compute work.
+    <div id="stats-area" class="card-body">
+      Loading stats...
     </div>
 
     <div class="button-row">
@@ -164,9 +258,83 @@
     </div>
 
     <div class="footer">
-      <span>Stats updated hourly by Folding@home.</span>
+      <span id="updated-line">Stats updated every 6 hours.</span>
       <span>stats.foldingathome.org</span>
     </div>
   </div>
+
+  <div class="embed-section">
+    <h2>Embed this widget</h2>
+
+    <div class="embed-option">
+      <label>iframe (websites, blogs)</label>
+      <pre id="embed-iframe">&lt;iframe src="https://CodyWhatleyMD.github.io/fah-stats/widget.html" width="380" height="220" style="border:none;border-radius:16px;overflow:hidden" loading="lazy"&gt;&lt;/iframe&gt;</pre>
+    </div>
+
+    <div class="embed-option">
+      <label>Badge iframe (compact)</label>
+      <pre id="embed-badge">&lt;iframe src="https://CodyWhatleyMD.github.io/fah-stats/widget.html?style=badge" width="280" height="36" style="border:none" loading="lazy"&gt;&lt;/iframe&gt;</pre>
+    </div>
+
+    <div class="embed-option">
+      <label>GitHub README (card)</label>
+      <pre id="embed-md-card">[![Folding@home Stats](https://CodyWhatleyMD.github.io/fah-stats/card.svg)](https://CodyWhatleyMD.github.io/fah-stats/)</pre>
+    </div>
+
+    <div class="embed-option">
+      <label>GitHub README (badge)</label>
+      <pre id="embed-md-badge">[![Folding@home](https://CodyWhatleyMD.github.io/fah-stats/badge.svg)](https://stats.foldingathome.org/donor/id/757631240)</pre>
+    </div>
+  </div>
+
+  <script>
+    (async function () {
+      var statsArea = document.getElementById('stats-area');
+      var donorName = document.getElementById('donor-name');
+      var updatedLine = document.getElementById('updated-line');
+
+      try {
+        var resp = await fetch('stats.json');
+        if (!resp.ok) throw new Error('no stats.json');
+        var data = await resp.json();
+        var d = data.donor;
+
+        donorName.textContent = d.name;
+
+        var pct = ((d.rank / d.users) * 100).toFixed(1);
+        var updated = new Date(data.updated_at).toLocaleDateString('en-US', {
+          year: 'numeric', month: 'short', day: 'numeric',
+        });
+
+        statsArea.className = 'stats-grid';
+        statsArea.innerHTML =
+          '<div><div class="stat-label">Score</div><div class="stat-value">' + d.score.toLocaleString('en-US') + '</div></div>' +
+          '<div><div class="stat-label">Work Units</div><div class="stat-value">' + d.wus.toLocaleString('en-US') + '</div></div>' +
+          '<div><div class="stat-label">Rank</div><div class="stat-value">#' + d.rank.toLocaleString('en-US') + '<span class="stat-sub">top ' + pct + '%</span></div></div>' +
+          (data.team ? '<div><div class="stat-label">Team</div><div class="stat-value">' + esc(data.team.name) + '</div></div>' : '');
+
+        updatedLine.textContent = 'Updated ' + updated;
+      } catch (e) {
+        statsArea.className = 'card-body';
+        statsArea.textContent = 'Share this link anywhere you want to show your distributed compute work.';
+      }
+
+      // Copy-to-clipboard on embed code blocks
+      document.querySelectorAll('.embed-option pre').forEach(function (pre) {
+        pre.addEventListener('click', function () {
+          navigator.clipboard.writeText(pre.textContent).then(function () {
+            pre.classList.add('copied');
+            setTimeout(function () { pre.classList.remove('copied'); }, 1500);
+          });
+        });
+      });
+
+      function esc(s) {
+        var d = document.createElement('div');
+        d.textContent = s;
+        return d.innerHTML;
+      }
+    })();
+  </script>
 </body>
 </html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Folding@home Stats Widget</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      color-scheme: dark;
+    }
+
+    body {
+      background: transparent;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    /* ── Card style ── */
+    .card {
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+      border-radius: 16px;
+      padding: 18px 20px 16px;
+      color: #e5e7eb;
+      max-width: 360px;
+      width: 100%;
+      margin: 4px;
+    }
+
+    .card-header {
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+
+    .card-name {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .card-id {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.65rem;
+      color: #94a3b8;
+      margin-bottom: 14px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 16px;
+      margin-bottom: 14px;
+    }
+
+    .stat-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 2px;
+    }
+
+    .stat-value {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .stat-sub {
+      font-size: 0.6rem;
+      color: #94a3b8;
+      margin-left: 4px;
+      font-weight: 400;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.6rem;
+      color: #64748b;
+      border-top: 1px solid rgba(51, 65, 85, 0.4);
+      padding-top: 10px;
+    }
+
+    .card-footer a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
+
+    /* ── Badge style ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+      border-radius: 999px;
+      padding: 4px 0;
+      color: #e5e7eb;
+      font-size: 0.72rem;
+      text-decoration: none;
+      gap: 0;
+    }
+
+    .badge-segment {
+      padding: 2px 10px;
+      white-space: nowrap;
+    }
+
+    .badge-label {
+      background: linear-gradient(135deg, #1d4ed8, #1e40af);
+      border-radius: 999px 0 0 999px;
+      font-weight: 600;
+      padding: 2px 10px;
+    }
+
+    .badge-divider {
+      width: 1px;
+      height: 14px;
+      background: #334155;
+    }
+
+    /* ── Fallback ── */
+    .fallback {
+      text-align: center;
+      padding: 16px;
+      color: #94a3b8;
+      font-size: 0.8rem;
+    }
+
+    .fallback a {
+      color: #60a5fa;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    /* ── Loading ── */
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #64748b;
+      font-size: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"><div class="loading">Loading stats...</div></div>
+
+  <script>
+    (async function () {
+      const params = new URLSearchParams(location.search);
+      const style = params.get('style') || 'card';
+      const donor = params.get('donor') || '757631240';
+      const isDefault = donor === '757631240';
+      const root = document.getElementById('root');
+
+      let data = null;
+
+      // Try same-origin stats.json for the default donor
+      if (isDefault) {
+        try {
+          const resp = await fetch('stats.json');
+          if (resp.ok) data = await resp.json();
+        } catch (e) { /* fall through */ }
+      }
+
+      // Try direct API (works server-side or if CORS is enabled)
+      if (!data) {
+        try {
+          const resp = await fetch('https://api2.foldingathome.org/uid/' + donor);
+          if (resp.ok) {
+            const raw = await resp.json();
+            const team = raw.teams && raw.teams[0];
+            data = {
+              donor: { name: raw.name, id: raw.id, score: raw.score, wus: raw.wus, rank: raw.rank, users: raw.users },
+              team: team ? { id: team.team, name: team.name, score: team.tscore, rank: team.trank } : null,
+              updated_at: raw.last || new Date().toISOString(),
+            };
+          }
+        } catch (e) { /* CORS blocked */ }
+      }
+
+      if (style === 'badge') {
+        renderBadge(data, donor);
+      } else {
+        renderCard(data, donor);
+      }
+
+      function fmt(n) {
+        return n.toLocaleString('en-US');
+      }
+
+      function fmtCompact(n) {
+        if (n >= 1e9) return (n / 1e9).toFixed(1) + 'B';
+        if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+        if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
+        return String(n);
+      }
+
+      function renderCard(data, donor) {
+        if (!data) {
+          root.innerHTML = '<div class="fallback">Folding@home Donor #' + donor +
+            '<br><a href="https://stats.foldingathome.org/donor/id/' + donor +
+            '" target="_blank" rel="noopener">View stats &rarr;</a></div>';
+          return;
+        }
+
+        const d = data.donor;
+        const pct = ((d.rank / d.users) * 100).toFixed(1);
+        const updated = new Date(data.updated_at).toLocaleDateString('en-US', {
+          year: 'numeric', month: 'short', day: 'numeric',
+        });
+
+        root.innerHTML =
+          '<div class="card">' +
+            '<div class="card-header">Folding@home</div>' +
+            '<div class="card-name">' + esc(d.name) + '</div>' +
+            '<div class="card-id">Donor ID: ' + d.id + '</div>' +
+            '<div class="stats-grid">' +
+              '<div><div class="stat-label">Score</div><div class="stat-value">' + fmt(d.score) + '</div></div>' +
+              '<div><div class="stat-label">Work Units</div><div class="stat-value">' + fmt(d.wus) + '</div></div>' +
+              '<div><div class="stat-label">Rank</div><div class="stat-value">#' + fmt(d.rank) + '<span class="stat-sub">top ' + pct + '%</span></div></div>' +
+              (data.team ? '<div><div class="stat-label">Team</div><div class="stat-value">' + esc(data.team.name) + '</div></div>' : '') +
+            '</div>' +
+            '<div class="card-footer">' +
+              '<span>Updated ' + updated + '</span>' +
+              '<a href="https://stats.foldingathome.org/donor/id/' + d.id + '" target="_blank" rel="noopener">stats.foldingathome.org</a>' +
+            '</div>' +
+          '</div>';
+      }
+
+      function renderBadge(data, donor) {
+        const statsUrl = 'https://stats.foldingathome.org/donor/id/' + donor;
+
+        if (!data) {
+          root.innerHTML = '<a class="badge" href="' + statsUrl + '" target="_blank" rel="noopener">' +
+            '<span class="badge-label">Folding@home</span>' +
+            '<span class="badge-segment">Donor #' + donor + '</span>' +
+          '</a>';
+          return;
+        }
+
+        const d = data.donor;
+        root.innerHTML = '<a class="badge" href="' + statsUrl + '" target="_blank" rel="noopener">' +
+          '<span class="badge-label">Folding@home</span>' +
+          '<span class="badge-segment">' + fmtCompact(d.score) + ' pts</span>' +
+          '<span class="badge-divider"></span>' +
+          '<span class="badge-segment">#' + fmt(d.rank) + '</span>' +
+        '</a>';
+      }
+
+      function esc(s) {
+        var d = document.createElement('div');
+        d.textContent = s;
+        return d.innerHTML;
+      }
+    })();
+  </script>
+</body>
+</html>
