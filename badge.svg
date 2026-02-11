@@ -1,16 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="234" height="20" role="img" aria-label="Folding@home: 96.1M pts | #39,708">
-  <title>Folding@home: 96.1M pts | #39,708</title>
-  <rect width="234" height="20" rx="3" fill="#0f172a"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="241" height="20" role="img" aria-label="Folding@home: 106.5M pts | #36,732">
+  <title>Folding@home: 106.5M pts | #36,732</title>
+  <rect width="241" height="20" rx="3" fill="#0f172a"/>
   <rect x="0" width="95" height="20" rx="3" fill="#1d4ed8"/>
   <rect x="95" width="1" height="20" fill="#0f172a"/>
-  <rect x="96" width="75" height="20" fill="#1e293b"/>
-  <rect x="171" width="1" height="20" fill="#0f172a"/>
-  <rect x="172" width="62" height="20" rx="3" fill="#1e293b"/>
+  <rect x="96" width="82" height="20" fill="#1e293b"/>
+  <rect x="178" width="1" height="20" fill="#0f172a"/>
+  <rect x="179" width="62" height="20" rx="3" fill="#1e293b"/>
   <rect x="96" width="3" height="20" fill="#1e293b"/>
-  <rect x="172" width="3" height="20" fill="#1e293b"/>
+  <rect x="179" width="3" height="20" fill="#1e293b"/>
   <g fill="#e5e7eb" font-family="system-ui,sans-serif" font-size="11" text-anchor="middle">
     <text x="47.5" y="14" font-weight="600">Folding@home</text>
-    <text x="133.5" y="14">96.1M pts</text>
-    <text x="203" y="14">#39,708</text>
+    <text x="137" y="14">106.5M pts</text>
+    <text x="210" y="14">#36,732</text>
   </g>
 </svg>
