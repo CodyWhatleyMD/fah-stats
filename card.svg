@@ -18,10 +18,10 @@
 
     <!-- Stats row -->
     <text x="20" y="98" fill="#94a3b8" font-size="10">SCORE</text>
-    <text x="20" y="114" fill="#e5e7eb" font-size="14" font-weight="600">112,942,560</text>
+    <text x="20" y="114" fill="#e5e7eb" font-size="14" font-weight="600">112,997,956</text>
 
     <text x="150" y="98" fill="#94a3b8" font-size="10">WORK UNITS</text>
-    <text x="150" y="114" fill="#e5e7eb" font-size="14" font-weight="600">677</text>
+    <text x="150" y="114" fill="#e5e7eb" font-size="14" font-weight="600">678</text>
 
     <text x="280" y="98" fill="#94a3b8" font-size="10">RANK</text>
     <text x="280" y="114" fill="#e5e7eb" font-size="14" font-weight="600">#35,260</text>
