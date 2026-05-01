@@ -18,16 +18,16 @@
 
     <!-- Stats row -->
     <text x="20" y="98" fill="#94a3b8" font-size="10">SCORE</text>
-    <text x="20" y="114" fill="#e5e7eb" font-size="14" font-weight="600">122,870,696</text>
+    <text x="20" y="114" fill="#e5e7eb" font-size="14" font-weight="600">122,940,339</text>
 
     <text x="150" y="98" fill="#94a3b8" font-size="10">WORK UNITS</text>
-    <text x="150" y="114" fill="#e5e7eb" font-size="14" font-weight="600">920</text>
+    <text x="150" y="114" fill="#e5e7eb" font-size="14" font-weight="600">922</text>
 
     <text x="280" y="98" fill="#94a3b8" font-size="10">RANK</text>
-    <text x="280" y="114" fill="#e5e7eb" font-size="14" font-weight="600">#33,272</text>
+    <text x="280" y="114" fill="#e5e7eb" font-size="14" font-weight="600">#33,262</text>
     <text x="345" y="114" fill="#94a3b8" font-size="10">top 1.1%</text>
 
     <!-- Footer -->
-    <text x="20" y="164" fill="#94a3b8" font-size="10">Team: OU Health  ·  Updated Apr 30, 2026</text>
+    <text x="20" y="164" fill="#94a3b8" font-size="10">Team: OU Health  ·  Updated May 1, 2026</text>
   </g>
 </svg>
