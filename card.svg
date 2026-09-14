@@ -18,13 +18,13 @@
 
     <!-- Stats row -->
     <text x="20" y="98" fill="#94a3b8" font-size="10">SCORE</text>
-    <text x="20" y="114" fill="#e5e7eb" font-size="14" font-weight="600">137,738,999</text>
+    <text x="20" y="114" fill="#e5e7eb" font-size="14" font-weight="600">144,100,756</text>
 
     <text x="150" y="98" fill="#94a3b8" font-size="10">WORK UNITS</text>
-    <text x="150" y="114" fill="#e5e7eb" font-size="14" font-weight="600">984</text>
+    <text x="150" y="114" fill="#e5e7eb" font-size="14" font-weight="600">986</text>
 
     <text x="280" y="98" fill="#94a3b8" font-size="10">RANK</text>
-    <text x="280" y="114" fill="#e5e7eb" font-size="14" font-weight="600">#30,851</text>
+    <text x="280" y="114" fill="#e5e7eb" font-size="14" font-weight="600">#30,324</text>
     <text x="345" y="114" fill="#94a3b8" font-size="10">top 1.0%</text>
 
     <!-- Footer -->
