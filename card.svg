@@ -18,16 +18,16 @@
 
     <!-- Stats row -->
     <text x="20" y="98" fill="#94a3b8" font-size="10">SCORE</text>
-    <text x="20" y="114" fill="#e5e7eb" font-size="14" font-weight="600">463,744,993</text>
+    <text x="20" y="114" fill="#e5e7eb" font-size="14" font-weight="600">477,556,266</text>
 
     <text x="150" y="98" fill="#94a3b8" font-size="10">WORK UNITS</text>
-    <text x="150" y="114" fill="#e5e7eb" font-size="14" font-weight="600">1,084</text>
+    <text x="150" y="114" fill="#e5e7eb" font-size="14" font-weight="600">1,088</text>
 
     <text x="280" y="98" fill="#94a3b8" font-size="10">RANK</text>
-    <text x="280" y="114" fill="#e5e7eb" font-size="14" font-weight="600">#11,803</text>
+    <text x="280" y="114" fill="#e5e7eb" font-size="14" font-weight="600">#11,525</text>
     <text x="345" y="114" fill="#94a3b8" font-size="10">top 0.4%</text>
 
     <!-- Footer -->
-    <text x="20" y="164" fill="#94a3b8" font-size="10">Team: WhatleyMD.AI  ·  Updated Sep 21, 2026</text>
+    <text x="20" y="164" fill="#94a3b8" font-size="10">Team: WhatleyMD.AI  ·  Updated Sep 22, 2026</text>
   </g>
 </svg>
